@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "905710900998",
+    "project_id": "pocket-buddy-b54fb",
+    "storage_bucket": "pocket-buddy-b54fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905710900998:android:ca4c679ce9973742613087",
+        "android_client_info": {
+          "package_name": "com.example.pocket_buddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905710900998-sfmqqra4l683ooul211l79juot552i4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtavbzedXM3V_mhpyIJA--JO1NvdR5rao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905710900998-sfmqqra4l683ooul211l79juot552i4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "905710900998-51ij4dk6glirapb6lr760cg98jbj4lvc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pocketBuddy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905710900998:android:f0fd5217abbd0d81613087",
+        "android_client_info": {
+          "package_name": "com.example.pocketbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905710900998-sfmqqra4l683ooul211l79juot552i4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtavbzedXM3V_mhpyIJA--JO1NvdR5rao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905710900998-sfmqqra4l683ooul211l79juot552i4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "905710900998-51ij4dk6glirapb6lr760cg98jbj4lvc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pocketBuddy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905710900998:android:eaf3de17a2364312613087",
+        "android_client_info": {
+          "package_name": "com.pocketbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905710900998-3gcppnqknqsdej8us82lrgao0tlsmk85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pocketbuddy",
+            "certificate_hash": "373333efb68e5419f58a35742111643420c8fde3"
+          }
+        },
+        {
+          "client_id": "905710900998-sfmqqra4l683ooul211l79juot552i4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtavbzedXM3V_mhpyIJA--JO1NvdR5rao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905710900998-sfmqqra4l683ooul211l79juot552i4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "905710900998-51ij4dk6glirapb6lr760cg98jbj4lvc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pocketBuddy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
