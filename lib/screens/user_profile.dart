@@ -12,34 +12,58 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   Map<String, dynamic>? _userData;
 
+  bool _isLoading = false;
+
   void _fetchUserData() async {
-    final userUid = FirebaseAuth.instance.currentUser!.uid;
-    final userData =
-        await FirebaseFirestore.instance.collection('users').doc(userUid).get();
     setState(() {
-      _userData = userData.data();
+      _isLoading =
+          true; // Add a new state variable _isLoading and initialize it as false
     });
-    if (_userData == null) {
-      showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: const Text('User Not Found'),
-            content: Text(
-                'Data not found with email: ${FirebaseAuth.instance.currentUser!.email}, Please login again.'),
-            actions: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  FirebaseAuth.instance.signOut();
-                },
-                child: const Text('Okay'),
-              )
-            ],
-          );
-        },
-      );
+
+    try {
+      final userUid = FirebaseAuth.instance.currentUser!.uid;
+      final userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userUid)
+          .get();
+
+      if (userData.exists) {
+        setState(() {
+          _userData = userData.data();
+          _isLoading =
+              false; // Set _isLoading to false when data fetching is completed
+        });
+      } else {
+        setState(() {
+          _isLoading =
+              false; // Set _isLoading to false if user data doesn't exist
+        });
+
+        showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Text('User Not Found'),
+              content: Text(
+                  'Data not found with email: ${FirebaseAuth.instance.currentUser!.email}, Please login again.'),
+              actions: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    FirebaseAuth.instance.signOut();
+                  },
+                  child: const Text('Okay'),
+                )
+              ],
+            );
+          },
+        );
+      }
+    } catch (error) {
+      setState(() {
+        _isLoading = false; // Set _isLoading to false if an error occurs
+      });
     }
   }
 
@@ -55,85 +79,78 @@ class _UserProfileState extends State<UserProfile> {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.teal, Colors.blue],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const CircleAvatar(
+                      radius: 62,
+                      foregroundImage:
+                          AssetImage('assets/images/default_profile.png'),
                     ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 48,
-                      child: Icon(
-                        Icons.person,
-                        size: 64,
-                        color: Colors.teal,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 24),
-                Expanded(
-                  child: Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'About me',
-                            style:
-                                Theme.of(context).textTheme.headline6!.copyWith(
+                    const SizedBox(height: 16),
+                    Card(
+                      color: Theme.of(context).colorScheme.background,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              'About me.',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onBackground,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
-                          const SizedBox(height: 16),
-                          _userData != null
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _buildInfoRow(context, Icons.person, 'Name',
-                                        _userData!['user_name']),
-                                    const SizedBox(height: 12),
-                                    _buildInfoRow(context, Icons.email, 'Email',
-                                        _userData!['user_email']),
-                                    const SizedBox(height: 12),
-                                    ElevatedButton(
-                                      onPressed: _showChangePasswordDialog,
-                                      child: const Text('Change Password'),
-                                    ),
-                                  ],
-                                )
-                              : const CircularProgressIndicator(), // Show loading indicator if data is being fetched
-                        ],
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 24),
+                            _buildInfoRow(context, Icons.person, 'Name',
+                                _userData!['user_name']),
+                            const SizedBox(height: 16),
+                            _buildInfoRow(context, Icons.email, 'Email',
+                                _userData!['user_email']),
+                            const SizedBox(height: 24),
+                            ElevatedButton.icon(
+                              style: const ButtonStyle(
+                                iconColor:
+                                    MaterialStatePropertyAll(Colors.white),
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.teal),
+                                padding: MaterialStatePropertyAll(
+                                  EdgeInsets.all(8),
+                                ),
+                              ),
+                              onPressed: _showChangePasswordDialog,
+                              icon: const Icon(Icons.lock),
+                              label: const Text(
+                                'Change Password',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                    )
+                  ],
                 ),
-              ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -185,14 +202,14 @@ Widget _buildInfoRow(
         children: [
           Text(
             label,
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
           ),
           const SizedBox(height: 4),
           Text(
             value,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],
       ),

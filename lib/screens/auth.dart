@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 final FirebaseAuth firebase = FirebaseAuth.instance;
 
 class UserAuthentication extends StatefulWidget {
@@ -54,6 +56,7 @@ class _UserAuthenticationState extends State<UserAuthentication> {
         userCredential = await firebase.signInWithCredential(credential);
       }
     } catch (error) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to sign in with Google: $error'),
@@ -106,12 +109,14 @@ class _UserAuthenticationState extends State<UserAuthentication> {
       }
       _formKey.currentState!.reset();
     } on FirebaseAuthException catch (error) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(error.message ?? 'Authentication failed'),
         ),
       );
     } catch (error) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('An error occurred. Please try again later.'),
@@ -177,10 +182,11 @@ class _UserAuthenticationState extends State<UserAuthentication> {
             children: [
               Text(
                 'Pocket Buddy',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: Colors.teal,
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: GoogleFonts.pacifico(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 36,
+                  color: Colors.teal,
+                ),
               ),
               const SizedBox(height: 16),
               Card(
