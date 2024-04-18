@@ -3,16 +3,20 @@ import 'package:intl/intl.dart';
 import 'package:pocketbuddy/model/base_url.dart';
 import 'package:pocketbuddy/model/expense.dart';
 import 'package:http/http.dart' as http;
+import 'package:pocketbuddy/model/log.dart';
+import 'package:pocketbuddy/widgets/expense_detail.dart';
 
 class ShowUserExpenseTable extends StatefulWidget {
   const ShowUserExpenseTable({
     super.key,
     required this.expenses,
     required this.refreshExpenseTotal,
+    required this.refershExpenseList,
   });
 
   final List<Expense> expenses;
   final Function(int n) refreshExpenseTotal;
+  final Function() refershExpenseList;
 
   @override
   State<StatefulWidget> createState() => _ShowUserExpenseTableState();
@@ -36,7 +40,7 @@ class _ShowUserExpenseTableState extends State<ShowUserExpenseTable> {
           });
         }
       } catch (error) {
-        print(error);
+        Logger.log(error.toString());
       }
     }
   }
@@ -99,7 +103,23 @@ class _ShowUserExpenseTableState extends State<ShowUserExpenseTable> {
                     onDismissed: (direction) {
                       _deleteExpense(expense, index - 1);
                     },
-                    child: _buildExpenseRow(expense),
+                    child: GestureDetector(
+                        onTap: () async {
+                          final bool response = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (ctx) => ExpenseDetails(
+                                expense: expense,
+                              ),
+                            ),
+                          );
+                          if (response) {
+                            setState(() {
+                              widget.refershExpenseList();
+                            });
+                          }
+                        },
+                        child: _buildExpenseRow(expense)),
                   );
                 },
               ),

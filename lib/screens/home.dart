@@ -20,7 +20,9 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<StatefulWidget> createState() {
+    return _HomeScreenState();
+  }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final BaseUrl _urls = BaseUrl();
 
-  final List<Expense> _expenseList = [];
+  List<Expense> _expenseList = [];
   double _allTimeTotalExp = 0.00;
   double _monthTotalExp = 0.00;
 
@@ -53,6 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
         _monthTotalExp = 0.00;
       });
     }
+  }
+
+  Future<void> refershExpenseList() async {
+    _expenseList = [];
+    setState(() {
+      _fetchExpenseAmountTotal();
+      _fetchExpenseFromDB();
+    });
   }
 
   Future<void> _fetchExpenseAmountTotal() async {
@@ -155,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _expenseList.add(newExpense);
         _fetchExpenseAmountTotal();
 
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pop();
       }
     } catch (error) {
@@ -317,6 +328,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 24),
             ShowUserExpenseTable(
+              refershExpenseList: () {
+                refershExpenseList();
+              },
               expenses: _expenseList,
               refreshExpenseTotal: (int n) {
                 refershExpenseTotalsAmounts(n);

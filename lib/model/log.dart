@@ -17,7 +17,7 @@ class Logger {
 
   static void log(String message) {
     final DateTime now = DateTime.now();
-    final String formattedTime = '${now.toIso8601String()}';
+    final String formattedTime = now.toIso8601String();
     // Write the log message with timestamp to the file.
     _sink.writeln('[$formattedTime] $message');
   }
