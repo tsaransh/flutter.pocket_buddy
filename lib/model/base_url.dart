@@ -5,11 +5,11 @@ class BaseUrl {
   final String groupExpenseDate;
 
   BaseUrl()
-      : hostUrl = "http://localhost:8080",
+      : hostUrl = "http://192.168.29.111:8080",
         personalExpense =
-            "http://localhost:8080/v1/api/pocket_buddy/personal/expense",
+            "http://192.168.29.111:8080/v1/api/pocket_buddy/personal/expense",
         groupExpense =
-            "http://localhost:8080/v1/api/pocket_buddy/group/expense",
+            "http://192.168.29.111/v1/api/pocket_buddy/group/expense",
         groupExpenseDate =
-            "http://localhost:8080/v1/api/pocket_buddy/group/expense/data";
+            "http://192.168.29.111:8080/v1/api/pocket_buddy/group/expense/data";
 }
